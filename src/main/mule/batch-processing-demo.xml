@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:batch="http://www.mulesoft.org/schema/mule/batch"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="8324754a-9846-415a-8dc4-c3493d405b5a" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="2a547f82-3019-4d0f-9925-8a30e4deec9e" >
+		<file:connection workingDir="C:\Users\aravi\Documents\Mulesoft\File" />
+	</file:config>
+	<flow name="batch-processing-demoFlow" doc:id="936838c7-a7ee-49f1-9519-72332b426c56" >
+		<http:listener doc:name="Listener" doc:id="39886092-da7a-4aab-a6a6-4b0a4db012f2" config-ref="HTTP_Listener_config" path="/api/batchdemo"/>
+		<logger level="INFO" doc:name="Logger" doc:id="d86bf5b9-48ed-4bb8-8a13-50ca91a36913" />
+		<file:read doc:id="088a5185-536e-45c1-9494-cd5625bd0720" config-ref="File_Config" path="Input\Site_Information.csv"/>
+		<ee:transform doc:name="Transform Message" doc:id="d09cb323-8af6-4c40-b892-5464a2b5e5b8">
+						<ee:message>
+							<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+		<batch:job jobName="batch-processing-demo-batch-Job" doc:id="d5e63dcb-163b-496a-b7e8-21eaa9186964" >
+			<batch:process-records >
+				<batch:step name="Batch_Step" doc:id="c3baf572-3a7e-49bd-b9a0-01325737d308" >
+					<ee:transform doc:name="Transform Message" doc:id="26ff1142-fb64-4adc-a67d-6afeeef74645" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var countryFromExcel = lower(payload.Country)
+---
+{
+	"SiteID" : payload.SiteID,
+	"SiteName": payload.SiteName,
+	"FuelType": payload.FuelType,
+	"Country" : payload.Country,
+	"Currency": if(countryFromExcel == "us") "Doller"
+	else if(countryFromExcel == 'india') "Rupees"
+	else "Sterling"
+}]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+				</batch:step>
+				<batch:step name="Batch_Step1" doc:id="3efb2a2d-263f-4d68-ad34-a3c8db61febf" >
+					<file:write doc:name="Write" doc:id="1c8316bb-5841-4ca7-adde-2b95f2c13dd0" config-ref="File_Config" path="Output\Updated_Site_Information.csv">
+						<file:content ><![CDATA[#[output application/csv header=false--- payload]]]></file:content>
+					</file:write>
+				</batch:step>
+			</batch:process-records>
+			<batch:on-complete >
+				<logger level="INFO" doc:name="Logger" doc:id="1ed646d4-9006-4278-89b4-7cdbff82a080" message="#[payload]"/>
+			</batch:on-complete>
+		</batch:job>
+		<ee:transform doc:name="Transform Message" doc:id="13f28db2-c73b-489d-b818-3e6587618853" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+import * from dw::Runtime
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
