@@ -11,12 +11,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
 	<file:config name="File_Config" doc:name="File Config" doc:id="2a547f82-3019-4d0f-9925-8a30e4deec9e" >
-		<file:connection workingDir="C:\Users\aravi\Documents\Mulesoft\File" />
+		<file:connection workingDir="D:\Mule Workspace\mulesoft-api-projects" />
 	</file:config>
 	<flow name="batch-processing-demoFlow" doc:id="936838c7-a7ee-49f1-9519-72332b426c56" >
 		<http:listener doc:name="Listener" doc:id="39886092-da7a-4aab-a6a6-4b0a4db012f2" config-ref="HTTP_Listener_config" path="/api/batchdemo"/>
-		<logger level="INFO" doc:name="Logger" doc:id="d86bf5b9-48ed-4bb8-8a13-50ca91a36913" />
-		<file:read doc:id="088a5185-536e-45c1-9494-cd5625bd0720" config-ref="File_Config" path="Input\Site_Information.csv"/>
+		<logger level="INFO" doc:name="Logger" doc:id="d86bf5b9-48ed-4bb8-8a13-50ca91a36913" message="batch processing starts"/>
+		<file:read doc:id="088a5185-536e-45c1-9494-cd5625bd0720" config-ref="File_Config" path="src\main\resources\input\Site_Information.csv"/>
 		<ee:transform doc:name="Transform Message" doc:id="d09cb323-8af6-4c40-b892-5464a2b5e5b8">
 						<ee:message>
 							<ee:set-payload><![CDATA[%dw 2.0
@@ -25,9 +25,10 @@ output application/java
 payload]]></ee:set-payload>
 						</ee:message>
 					</ee:transform>
-		<batch:job jobName="batch-processing-demo-batch-Job" doc:id="d5e63dcb-163b-496a-b7e8-21eaa9186964" >
+		<batch:job jobName="batch-processing-demo-batch-Job" doc:id="d5e63dcb-163b-496a-b7e8-21eaa9186964" maxFailedRecords="-1">
 			<batch:process-records >
 				<batch:step name="Batch_Step" doc:id="c3baf572-3a7e-49bd-b9a0-01325737d308" >
+					<logger level="INFO" doc:name="Logger" doc:id="66413a89-889d-4768-b3e7-c2ce86647ed9" message="#['In batch step 1']"/>
 					<ee:transform doc:name="Transform Message" doc:id="26ff1142-fb64-4adc-a67d-6afeeef74645" >
 						<ee:message >
 							<ee:set-payload ><![CDATA[%dw 2.0
@@ -47,7 +48,7 @@ var countryFromExcel = lower(payload.Country)
 					</ee:transform>
 				</batch:step>
 				<batch:step name="Batch_Step1" doc:id="3efb2a2d-263f-4d68-ad34-a3c8db61febf" >
-					<file:write doc:name="Write" doc:id="1c8316bb-5841-4ca7-adde-2b95f2c13dd0" config-ref="File_Config" path="Output\Updated_Site_Information.csv">
+					<file:write doc:name="Write" doc:id="1c8316bb-5841-4ca7-adde-2b95f2c13dd0" config-ref="File_Config" path="src\main\resources\output\Updated_Site_Information.csv" mode="APPEND">
 						<file:content ><![CDATA[#[output application/csv header=false--- payload]]]></file:content>
 					</file:write>
 				</batch:step>
@@ -63,6 +64,128 @@ import * from dw::Runtime
 output application/json
 ---
 payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="batch-processing-demoFlow1" doc:id="a7d25535-bf8f-4348-b590-bead30167d81" >
+		<http:listener doc:name="Listener" doc:id="0d226ba8-21cd-45f3-93e8-431e58a86ad4" config-ref="HTTP_Listener_config" path="/api/batchdemo/aggregator"/>
+		<logger level="INFO" doc:name="Logger" doc:id="ef33f14e-c0db-47be-8552-85a1197642f7" message="#['batch aggregator flow started']"/>
+		<file:read doc:name="Read" doc:id="fd175f9d-fac3-4b53-a454-85ee4d2ffdd5" config-ref="File_Config" path="src\main\resources\input\Site_Information.csv"/>
+		<ee:transform doc:name="Transform Message" doc:id="0d66e2a7-91af-4a77-b65c-e20e06681654" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<batch:job jobName="batch-processing-demoBatch_Job" doc:id="2266144a-a902-48f9-837b-dda395ed05f7" >
+			<batch:process-records >
+				<batch:step name="Batch_Step2" doc:id="1c165a74-f015-4b95-9739-cd912a755795" >
+					<logger level="INFO" doc:name="Logger" doc:id="f27c6ae3-296f-4d7f-a9c2-595426163187" message="inside batch step"/>
+					<ee:transform doc:name="Transform Message" doc:id="d4ec880f-9c1c-483c-b342-460d335171fe" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+var countryFromExcel = lower(payload.Country)
+---
+{
+	"SiteID" : payload.SiteID,
+	"SiteName": payload.SiteName,
+	"FuelType": payload.FuelType,
+	"Country" : payload.Country,
+	"Currency": if(countryFromExcel == "us") "Doller"
+	else if(countryFromExcel == 'india') "Rupees"
+	else "Sterling"
+}]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+					<batch:aggregator doc:name="Batch Aggregator" doc:id="992cda5c-463f-4f34-b3ab-b7500a6bc5c1" size="100">
+						<ee:transform doc:name="Transform Message" doc:id="06c76fd5-95f5-478a-9fa0-499f2a70afce" >
+							<ee:message >
+								<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map (data, index) ->
+{
+	"SiteID" : data.SiteID,
+	"SiteName": data.SiteName,
+	"FuelType": data.FuelType,
+	"Country" : data.Country,
+	"Currency": data.Currency
+}]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
+						<file:write doc:name="Write" doc:id="d6046ee2-ff80-42e8-a840-cd3bcddb3f88" config-ref="File_Config" path="#['src\\main\\resources\\output\\Aggregator' ++ (random() * 1000) ++ '_Site_Information.txt']" mode="APPEND">
+						</file:write>
+					</batch:aggregator>
+				</batch:step>
+			</batch:process-records>
+			<batch:on-complete >
+				<logger level="INFO" doc:name="Logger" doc:id="73fbc55b-4a97-416a-955e-8dfed1920296" message="#[payload]"/>
+			</batch:on-complete>
+		</batch:job>
+		<ee:transform doc:name="Transform Message" doc:id="120e87c1-a4fc-48a3-a4b8-0eba10394f8a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+import * from dw::Runtime
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="batch-processing-demoFlow2" doc:id="53b8fa30-c6f9-4f6b-b8e9-ba06d702ac8b" >
+		<http:listener doc:name="Listener" doc:id="56feafc2-5335-489d-95e5-e60307eb13b8" config-ref="HTTP_Listener_config" path="/api/batchdemo/aggregator/two"/>
+		<logger level="INFO" doc:name="Logger" doc:id="94da45e8-9989-44c1-8fbe-15e417670e5b" message="#['batch aggregater 2 example flow starts']"/>
+		<file:read doc:name="Read" doc:id="836d11af-ba65-4988-8e1e-72b5d849ed87" path="src\main\resources\input\Site_Information.csv" config-ref="File_Config"/>
+		<ee:transform doc:name="Transform Message" doc:id="2cffac27-fe2c-46da-bb33-a5ea0d1a688d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<batch:job jobName="batch-processing-demoBatch_Job1" doc:id="8402e592-4072-4f16-91eb-d1516b0201a2" >
+			<batch:process-records >
+				<batch:step name="Batch_Step3" doc:id="ded0e9d8-a401-4bbb-ba77-ad217305283b" >
+					<logger level="INFO" doc:name="Logger" doc:id="f60e10de-afd5-4677-ab04-c3617cb7017b" message="inside batch step"/>
+					<ee:transform doc:name="Transform Message" doc:id="c9549736-982a-4321-9d51-b4b8c3dcbf86" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+var countryFromExcel = lower(payload.Country)
+---
+{
+	"SiteID" : payload.SiteID,
+	"SiteName": payload.SiteName,
+	"FuelType": payload.FuelType,
+	"Country" : payload.Country,
+	"memberType": if(countryFromExcel == 'india') 'Local' else 'Foreign'
+}]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+					<batch:aggregator doc:name="Batch Aggregator" doc:id="a7884e2c-9db4-4f41-83bb-7fe590b90835" size="100">
+						<logger level="INFO" doc:name="Logger" doc:id="9710b7fa-078b-4cfd-a8c0-8b3dec2c5fbb" message="#['Going to write ' ++ sizeOf(payload) ++ ' records to the file']"/>
+						<file:write doc:name="Write" doc:id="a00eb734-2c13-4b63-9e8c-fac92ba81980" config-ref="File_Config" path="src\main\resources\output\Aggregated_Site_Information.csv" mode="APPEND" >
+							<file:content ><![CDATA[#[output application/csv header=false--- payload]]]></file:content>
+						</file:write>
+					</batch:aggregator>
+				</batch:step>
+			</batch:process-records>
+			<batch:on-complete >
+				<logger level="INFO" doc:name="Logger" doc:id="cdefd844-be06-416c-8081-73b0eb97a201" message="#[payload]"/>
+			</batch:on-complete>
+		</batch:job>
+		<ee:transform doc:name="Transform Message" doc:id="d2f6dfdb-0dfc-4460-9c29-0754b57a699c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"status": "file processed successfully"
+}]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>

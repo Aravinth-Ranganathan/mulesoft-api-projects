@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<os:config name="ObjectStore_Config" doc:name="ObjectStore Config" doc:id="177d0b83-60e0-4a68-9f03-e7f5a2af99ec" >
+		<os:connection >
+			<reconnection >
+				<reconnect />
+			</reconnection>
+		</os:connection>
+	</os:config>
+	<os:object-store name="Object_store_demo" doc:name="Object store" doc:id="ebea9e1d-0566-45d2-a501-3873e28ee715" maxEntries="20" entryTtl="30" entryTtlUnit="MINUTES" expirationIntervalUnit="DAYS" config-ref="ObjectStore_Config" />
+	<flow name="object-store-demoFlow" doc:id="19c8f2b1-9cda-4ecd-9055-3883c54754fe" >
+		<http:listener doc:name="Listener" doc:id="201420a6-c45a-410a-a7a7-8fd96dbf2f18" config-ref="HTTP_Listener_config" path="/objectstore/demo/store/"/>
+		<set-variable value="#[payload.id]" doc:name="Set Variable" doc:id="421e7982-05f5-4c6b-94cb-b498c15cfb94" variableName="key"/>
+		<os:store doc:id="d9971441-4950-4749-8717-82e04c42ff99" key="#[vars.key]" objectStore="Object_store_demo"/>
+		<ee:transform doc:name="Transform Message" doc:id="ab1a6917-102f-4137-842c-17e13effeb19" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="object-store-demoFlow1" doc:id="6eda5a26-3511-4035-b6b7-a7a3b2bb1a88" >
+		<http:listener doc:name="Listener" doc:id="e9744c53-28d5-4250-977c-3a4d517268e6" config-ref="HTTP_Listener_config" path="/objectstore/demo/contains/"/>
+		<set-variable value="#[attributes.queryParams.requestId]" doc:name="Set Variable" doc:id="51a4e778-c207-404c-987d-3e75f11932d5" variableName="requestId"/>
+		<os:contains doc:name="Contains" doc:id="27da7217-27fd-4d1b-b7a0-71d5518ace0d" key="#[vars.requestId]" objectStore="Object_store_demo"/>
+		<ee:transform doc:name="Transform Message" doc:id="16c16ac1-65d1-423f-b8d1-48a45a374072" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="object-store-demoFlow2" doc:id="b6c0cb4f-400d-4c6a-b53f-97703f2992e6" >
+		<http:listener doc:name="Listener" doc:id="c39b8aa2-2401-4eb1-9342-967c71480f1a" config-ref="HTTP_Listener_config" path="/objectstore/demo/retrieve/"/>
+		<set-variable value="#[attributes.queryParams.requestId]" doc:name="Set Variable" doc:id="2d5a4556-ffad-457d-8896-166877cd4fe7" variableName="requestId" />
+		<os:retrieve doc:name="Retrieve" doc:id="543b4f0b-1577-41b2-ba02-bd6e79a38688" key="#[vars.requestId]" objectStore="Object_store_demo"/>
+		<ee:transform doc:name="Transform Message" doc:id="e61a2fad-79d5-4150-8d72-06ee6ce5d9bf" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="object-store-demoFlow3" doc:id="9e3a8eef-bdb1-4d21-ab93-2c674c2ce9f3" >
+		<http:listener doc:name="Listener" doc:id="30136868-7edf-4ec9-b816-887e9bb62630" config-ref="HTTP_Listener_config" path="/objectstore/demo/retrieveall/"/>
+		<os:retrieve-all doc:name="Retrieve all" doc:id="f9edee52-e372-41a6-8953-8bffbc2dcf45" objectStore="Object_store_demo"/>
+		<ee:transform doc:name="Transform Message" doc:id="df381d22-dec9-420c-8630-dd9e20072dff" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="object-store-demoFlow4" doc:id="4059c620-ccfb-4a15-998f-1a22c2f950bc" >
+		<http:listener doc:name="Listener" doc:id="253d3e53-67ee-49ed-861c-27f3462f0186" config-ref="HTTP_Listener_config" path="/objectstore/demo/retrieveallkeys/"/>
+		<os:retrieve-all-keys doc:name="Retrieve all keys" doc:id="08369e0b-8ab3-40d4-a9d8-660c0498adb0" objectStore="Object_store_demo"/>
+		<ee:transform doc:name="Transform Message" doc:id="d56cd2c7-4740-44f6-8678-41f2e1d03323" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

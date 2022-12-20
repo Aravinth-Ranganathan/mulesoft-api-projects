@@ -1,5 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="async-scope-demoFlow" doc:id="7c45f9d1-4d5c-46c4-a9f4-8c96adcd681a" >
+		<http:listener doc:name="Listener" doc:id="b564b063-a2b7-423c-875c-596d51fc14f2" config-ref="HTTP_Listener_config" path="/async/demo"/>
+		<logger level="INFO" doc:name="Logger" doc:id="7d87fdbd-f0f2-4340-bf6b-9448d6a2cb9c" message="Async flow started"/>
+		<async doc:name="Async" doc:id="e727da4a-4734-4b8c-824e-0e4ae4d26aa2" >
+			<logger level="INFO" doc:name="Logger" doc:id="e7db0193-7e86-4d6b-a59b-39e7e687b9d9" message="Inside Async"/>
+			<ee:transform doc:name="Transform Message" doc:id="b3d7250e-280a-45df-975e-f272e10b492d" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import * from dw::Runtime
+output application/json
+---
+{
+	"message":"async scope completed" wait 7000
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<logger level="INFO" doc:name="Logger" doc:id="fa8684e9-4087-40bd-92d1-81d715ca6f37" message="#[payload]"/>
+		</async>
+		<ee:transform doc:name="Transform Message" doc:id="278e7e4e-c49d-4d99-802c-12ca38f0385c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message":"main flow completed"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="fc2df414-6407-4e4a-8609-9385cf5aa442" message="#[payload]"/>
+	</flow>
+</mule>

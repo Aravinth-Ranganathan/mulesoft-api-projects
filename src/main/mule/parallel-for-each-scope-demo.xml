@@ -1,5 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="parallel-for-each-scope-demoFlow" doc:id="7b6b743d-f118-4e52-b709-b1cf2222ac4f" >
+		<http:listener doc:name="Listener" doc:id="ce99f2f2-0563-4f2d-9c22-534c588cb852" config-ref="HTTP_Listener_config" path="api/parallerforeach/demo"/>
+		<logger level="INFO" doc:name="Logger" doc:id="b698e115-5723-4023-9725-d428eebb8a01" message="parallel for each flow start"/>
+		<ee:transform doc:name="Transform Message" doc:id="18cff857-a7d7-41aa-9a1c-947893c7d422">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+[
+	{
+		"name": "Ram",
+		"email": "ram@gmail.com",
+		"age": 23,
+		"country": "India"
+	},    
+    {
+		"name": "Shyam",
+		"email": "shyam23@gmail.com",
+		"age": 28,
+		"country": "India"
+	},  
+    {
+		"name": "John",
+		"email": "john@gmail.com",
+		"age": 33,
+		"country": "US"
+	},    
+    {
+		"name": "Bob",
+		"email": "bob32@gmail.com",
+		"age": 41,
+		"country": "UK"
+	},
+	{
+		"name": "Mahi",
+		"email": "bob32@gmail.com",
+		"age": 12,
+		"country": "India"
+	}
+]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<parallel-foreach doc:name="Parallel For Each" doc:id="5c7f34c1-29bc-44e4-8fd8-efd6a298bfea" >
+			<logger level="INFO" doc:name="Logger" doc:id="8d793846-4899-480a-b2e2-7a007fd67019" />
+			<choice doc:name="Choice" doc:id="4419a85d-ce8b-4b3e-b6c7-30c74c24f2a0" >
+				<when expression="#[lower(payload.country) == 'india']">
+					<logger level="INFO" doc:name="Logger" doc:id="5ff4f7ce-8b1f-48a6-9642-925e4dd126ab" message="#['From ' ++ payload.country]"/>
+					<ee:transform doc:name="Transform Message" doc:id="690438bc-bb39-4a32-b4f2-4d123eb169d3" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"totalSale" : 10000
+}]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+					<logger level="INFO" doc:name="Logger" doc:id="a60b5391-c445-4925-932e-63eb9b6b0445" message="#[payload]"/>
+				</when>
+				<when expression="#[lower(payload.country) == 'us']">
+					<logger level="INFO" doc:name="Logger" doc:id="e90e7184-3196-41e5-91e5-ab91b4b1befb" message="#['From ' ++ payload.country]"/>
+					<ee:transform doc:name="Transform Message" doc:id="ece08b4a-5dc5-4b66-88c8-9220a96d00fb" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"totalSale" : 5000
+}]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+					<logger level="INFO" doc:name="Logger" doc:id="7990448c-cf27-4875-92da-a58a9cc6a658" message="#[payload]" />
+				</when>
+				<otherwise >
+					<logger level="INFO" doc:name="Logger" doc:id="2e781a29-30a8-47a0-92d5-adfb9ec14cf9" message="default choice"/>
+					<ee:transform doc:name="Transform Message" doc:id="a85626f7-7a0c-4984-9e71-309faba5ed8a" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"totalSale" : 4000
+}]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+					<logger level="INFO" doc:name="Logger" doc:id="da44082d-7258-4cf2-bfc0-07a44b8a79ff" message="#[payload]" />
+				</otherwise>
+			</choice>
+		</parallel-foreach>
+		<ee:transform doc:name="Transform Message" doc:id="b8ab369b-8e7f-400f-8996-cb06c5887f91">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="1492c574-a2bb-4483-bc68-9cd4f92d9b84" message="payload" />
+	</flow>
+</mule>

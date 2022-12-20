@@ -1,5 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="until-successful-scope-demoFlow" doc:id="13d19e6a-f234-4aaf-985a-a2f50615d948" >
+		<http:listener doc:name="Listener" doc:id="d7fa485b-d02b-42ef-a1fa-7b3d06c7d701" config-ref="HTTP_Listener_config" path="api/utillsuccessful/demo/"/>
+		<logger level="INFO" doc:name="Logger" doc:id="6b846ea7-1e3f-4282-8261-1dd5fbf95001" message="until successful flow started"/>
+		<until-successful maxRetries="5" doc:name="Until Successful" doc:id="f30dccfd-f052-477d-99e8-9683b500ed87" millisBetweenRetries="1000">
+			<logger level="INFO" doc:name="Logger" doc:id="7553c510-1c1c-4263-b3b6-6dc29eece856" message="Inside Until Successful scope"/>
+			<file:write doc:name="Write" doc:id="e559e525-3011-496a-9efe-cf4464997995" config-ref="File_Config" path="src\main\resources\fromUntilSuccessful\fromUntilSuccessfuldemo.json" createParentDirectories="false" />
+		</until-successful>
+		<logger level="INFO" doc:name="Logger" doc:id="664fe08a-856f-420b-a791-e4c2ee94d60d" message="File written successfully " />
+		<ee:transform doc:name="Transform Message" doc:id="23d95dca-826b-4c22-8d3a-61aee27a3279">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": "Updated file with the payload body"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="55e6e76c-b837-4e7c-b34b-96c5ec4738ff" type="FILE:ILLEGAL_PATH, FILE:RETRY_EXHAUSTED, MULE:RETRY_EXHAUSTED">
+				<logger level="INFO" doc:name="Logger" doc:id="fd167b87-4114-45fb-8f8a-686b65e2b760" message="#[error.description]" />
+				<ee:transform doc:name="Transform Message" doc:id="426fdaef-1534-46b9-8fc7-80d90a26ba2e" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": error.description
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[503]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<logger level="INFO" doc:name="Logger" doc:id="c758ed71-0cf3-43cb-ac1c-7d08dc83e868" message="#[vars.httpStatus]"/>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>

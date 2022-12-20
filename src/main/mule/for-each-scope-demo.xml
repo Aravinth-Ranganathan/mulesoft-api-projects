@@ -1,5 +1,154 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="for-each-scope-demoFlow" doc:id="5486ee9d-bd1a-4544-9b80-ad54f01c084e" >
+		<http:listener doc:name="Listener" doc:id="7695da07-bcd9-40d6-a2ab-335b7792689d" config-ref="HTTP_Listener_config" path="api/foreach/demo"/>
+		<logger level="INFO" doc:name="Logger" doc:id="f4a4e808-a354-4f84-9cc1-d9f5399dbfed" message="for each flow started"/>
+		<ee:transform doc:name="Transform Message" doc:id="52a323c4-03cc-4f71-ad2b-099707d6c2d2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+[
+	{
+		"name": "Ram",
+		"email": "ram@gmail.com",
+		"age": 23
+	},    
+    {
+		"name": "Shyam",
+		"email": "shyam23@gmail.com",
+		"age": 28
+	},  
+    {
+		"name": "John",
+		"email": "john@gmail.com",
+		"age": 33
+	},    
+    {
+		"name": "Bob",
+		"email": "bob32@gmail.com",
+		"age": 41
+	},
+	{
+		"name": "Mahi",
+		"email": "bob32@gmail.com",
+		"age": 12
+	}
+]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<set-variable value="#[[]]" doc:name="Set Variable" doc:id="70c20f75-7243-4382-ae00-ec705dd75560" variableName="arr"/>
+		<foreach doc:name="For Each" doc:id="100785e0-0d76-45fe-8acb-d776d791c07c">
+			<logger level="INFO" doc:name="Logger" doc:id="cf2f2127-f2ec-4503-bcbc-ea33c1dc29ca" message="inside for each loop" />
+			<ee:transform doc:name="Transform Message" doc:id="791c5827-0044-4a5a-b21a-f9f4512849a5" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="arr" ><![CDATA[%dw 2.0
+output application/json
+---
+vars.arr +
+{
+	"name": payload.name,
+	"email": payload.email,
+	"age": payload.age,
+	"eligible": if(payload.age >= 18) true else false
+}
+]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<logger level="INFO" doc:name="Logger" doc:id="1b0ee67b-01a2-44b7-8e6c-3ac22e72e199" message="#[payload]"/>
+		</foreach>
+		<ee:transform doc:name="Transform Message" doc:id="c0cfe4d3-d2c1-4115-9115-d976eb47fe26" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+vars.arr]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="583a2b27-ce3a-4884-a48f-abb75d470f66" message="#[payload]"/>
+	</flow>
+		<flow name="for-each-scope-demo-flow-higher-batch-size" doc:id="c29caaad-6b09-459e-9a03-c1783fc86952" >
+		<http:listener doc:name="Listener" doc:id="483a63d7-587f-4c80-9229-a9253e34b400" config-ref="HTTP_Listener_config" path="api/foreach/demo/higherbatchsize"/>
+		<logger level="INFO" doc:name="Logger" doc:id="6a8d5bdf-5686-4111-8d8e-0d6d731b86cc" message="for each flow started"/>
+		<ee:transform doc:name="Transform Message" doc:id="0a4260d1-ca0c-4303-b77a-af4fab0344b1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+[
+	{
+		"name": "Ram",
+		"email": "ram@gmail.com",
+		"age": 23
+	},    
+    {
+		"name": "Shyam",
+		"email": "shyam23@gmail.com",
+		"age": 28
+	},  
+    {
+		"name": "John",
+		"email": "john@gmail.com",
+		"age": 33
+	},    
+    {
+		"name": "Bob",
+		"email": "bob32@gmail.com",
+		"age": 41
+	},
+	{
+		"name": "Mahi",
+		"email": "bob32@gmail.com",
+		"age": 12
+	}
+]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<set-variable value="#[[]]" doc:name="Set Variable" doc:id="fef2e17f-31ef-4db3-b3f1-7f3be8aba9b9" variableName="arr"/>
+		<foreach doc:name="For Each" doc:id="a082f02e-a4b1-4e38-a2d5-6c03319c03f1" batchSize="2">
+			<logger level="INFO" doc:name="Logger" doc:id="87fd2c30-a49b-43ec-9804-f59fcb6af75a" message="inside for each loop" />
+			<ee:transform doc:name="Transform Message" doc:id="692b345e-db56-4ad0-8793-abc3f75cb638" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map (value, index) -> {
+	"name": value.name,
+	"email": value.email,
+	"age": value.age,
+	"eligible": if (value.age >=18) true else false
+}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+				</ee:variables>
+			</ee:transform>
+			<ee:transform doc:name="Transform Message" doc:id="dcfb8800-fca6-4e44-90ea-37ee0089e07d" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="arr" ><![CDATA[%dw 2.0
+output application/java
+---
+vars.arr + payload]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<logger level="INFO" doc:name="Logger" doc:id="5bcbaa28-9f38-4fa0-92ad-19975974a885" message="#[payload]"/>
+		</foreach>
+		<ee:transform doc:name="Transform Message" doc:id="e6d0214a-b3cb-49e9-bb47-cc156c637bc0" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+vars.arr]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="0210817f-389c-4e61-bc6b-ceabc3ad1215" message="#[payload]"/>
+	</flow>
+</mule>

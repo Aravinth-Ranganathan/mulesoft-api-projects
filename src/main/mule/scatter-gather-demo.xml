@@ -1,5 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="scatter-gather-demoFlow" doc:id="92f1caf5-cb7d-4b96-8f4c-b9da357c7044" >
+		<http:listener doc:name="Listener" doc:id="10ba5bab-c230-404e-bf37-d2f0b4c1d044" config-ref="HTTP_Listener_config" path="api/scattergather/demo"/>
+		<logger level="INFO" doc:name="Logger" doc:id="f30b902b-2938-483c-a8ff-0b60dce3218d" message="scatter gather flow started"/>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="0138809c-2599-4895-9882-e731c9e18ffc" >
+			<route >
+				<logger level="INFO" doc:name="Logger" doc:id="562533bd-6cd6-4f4d-a8e2-91b77c4f374f" />
+				<flow-ref doc:name="scatter-gather-demo_Sub_Flow_1" doc:id="dd6d21c6-6a34-4f03-87cb-ee2cf71f93d4" name="scatter-gather-demo_Sub_Flow_1"/>
+			</route>
+			<route >
+				<logger level="INFO" doc:name="Logger" doc:id="76057c5d-fa08-47ac-a5f3-36d2b03a888f" />
+				<flow-ref doc:name="scatter-gather-demo_Sub_Flow_2" doc:id="092632ca-c3a6-4e7a-aafd-ae9fc11bf72d" name="scatter-gather-demo_Sub_Flow_2"/>
+			</route>
+		</scatter-gather>
+		<logger level="INFO" doc:name="Logger" doc:id="6c6ad4d9-4d81-41ba-9aad-a86d9e5b2e08" message="#[payload]"/>
+		<ee:transform doc:name="Transform Message" doc:id="72abdb26-0c67-4ac5-823e-69676f7fe682" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	flow1: payload["0"]."payload",
+	flow2: payload["1"]."payload"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="8e01e789-6a5c-479f-87be-b7b05694ac6a" message="scatter gather flow finished"/>
+	</flow>
+	<sub-flow name="scatter-gather-demo_Sub_Flow_1" doc:id="69f5518d-5a5d-4132-86e4-206af252d718" >
+		<logger level="INFO" doc:name="Logger" doc:id="f0b05080-b591-49b1-98fb-f6ef1fc20aca" message="In sub flow 1"/>
+		<ee:transform doc:name="Transform Message" doc:id="cff1553e-13d7-46f4-8c65-304da43cc1bd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"product1": "Petrol",
+	"product2": "Desiel"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="scatter-gather-demo_Sub_Flow_2" doc:id="b344e845-8d16-45dd-9dfc-e8ebd15a70b9" >
+		<logger level="INFO" doc:name="Logger" doc:id="2de6c9ec-6755-439e-af9e-6e7d6642e5f1" message="In sub flow 2"/>
+		<ee:transform doc:name="Transform Message" doc:id="4d1cb934-941f-486f-bc18-5910d122494e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"product1": "EV",
+	"product2": "Gas"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

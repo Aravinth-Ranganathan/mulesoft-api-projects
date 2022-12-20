@@ -1,5 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="choice-router-demoFlow" doc:id="a1ed41f6-cb3e-4c8e-bfa5-3bed5a4d1d0e">
+		<http:listener doc:name="Listener" doc:id="da9dd768-a34b-435e-97f0-6ba09976e915" config-ref="HTTP_Listener_config" path="/api/choicedemo/"/>
+		<logger level="INFO" doc:name="Logger" doc:id="e2307d32-c07b-45cd-8086-4c98418593ba" message="choice router flow starts"/>
+		<set-variable value="#[attributes.queryParams.country default 'No country']" doc:name="country" doc:id="fd90d278-251e-4f58-a27d-aae890002966" variableName="country"/>
+		<choice doc:name="Choice" doc:id="3ddad1e7-9516-47c8-a520-63222ad0ea49" >
+			<when expression='#[lower(vars.country) == "india"]'>
+				<logger level="INFO" doc:name="Logger" doc:id="2e778b43-af42-45a6-9982-775cf3e67264" />
+				<flow-ref doc:name="choice-router-demo-positive-Sub_Flow" doc:id="a7a6f061-d9d5-40e3-918b-ba2e6f34a1e3" name="choice-router-demo-positive-Sub_Flow"/>
+			</when>
+			<when expression='#[lower(vars.country) == "us"]'>
+				<logger level="INFO" doc:name="Logger" doc:id="52c3174b-34b6-42d5-92f4-025f245fef40" />
+				<flow-ref doc:name="choice-router-demo-positive-Sub_Flow" doc:id="64511508-77c3-403a-9a3a-56886db66e87" name="choice-router-demo-positive-Sub_Flow"/>
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="Logger" doc:id="fa8b4bbe-1d30-4416-8896-5531068a281f" message="No country selected"/>
+				<flow-ref doc:name="choice-router-demoSub_Flow" doc:id="179c7b53-a0c2-4b45-b4a8-b9db654527b4" name="choice-router-demo-default-Sub_Flow"/>
+			</otherwise>
+		</choice>
+		<logger level="INFO" doc:name="Logger" doc:id="f8a85a81-dbd6-4097-8d05-6e244194d877" message="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="ea51671f-e93e-4623-8509-96fe35d82446" message="choice router flow ends"/>
+	</flow>
+	<sub-flow name="choice-router-demo-default-Sub_Flow" doc:id="b5cc2dc7-cfc2-4889-a332-3c2b58399a97" >
+		<ee:transform doc:name="Transform Message" doc:id="431e2baa-16ff-4b7b-8901-8bd181fc2271" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"country": vars.country ++ " selected"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="choice-router-demo-positive-Sub_Flow" doc:id="04d483a8-bde9-49aa-a182-a8f1e2410108" >
+		<ee:transform doc:name="Transform Message" doc:id="088414cd-f157-41ff-80c1-4dea1ad70a95" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"country": "You are in " ++ vars.country
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

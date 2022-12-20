@@ -1,0 +1,702 @@
+[
+  {
+    "SiteID": "66",
+    "SiteName": "Site66",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "67",
+    "SiteName": "Site67",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "68",
+    "SiteName": "Site68",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "69",
+    "SiteName": "Site69",
+    "FuelType": "Disel",
+    "Country": "INDIA",
+    "Currency": "Rupees"
+  },
+  {
+    "SiteID": "70",
+    "SiteName": "Site70",
+    "FuelType": "Disel",
+    "Country": "INDIA",
+    "Currency": "Rupees"
+  },
+  {
+    "SiteID": "71",
+    "SiteName": "Site71",
+    "FuelType": "Disel",
+    "Country": "INDIA",
+    "Currency": "Rupees"
+  },
+  {
+    "SiteID": "72",
+    "SiteName": "Site72",
+    "FuelType": "Disel",
+    "Country": "INDIA",
+    "Currency": "Rupees"
+  },
+  {
+    "SiteID": "73",
+    "SiteName": "Site73",
+    "FuelType": "Disel",
+    "Country": "INDIA",
+    "Currency": "Rupees"
+  },
+  {
+    "SiteID": "74",
+    "SiteName": "Site74",
+    "FuelType": "Disel",
+    "Country": "INDIA",
+    "Currency": "Rupees"
+  },
+  {
+    "SiteID": "75",
+    "SiteName": "Site75",
+    "FuelType": "Disel",
+    "Country": "INDIA",
+    "Currency": "Rupees"
+  },
+  {
+    "SiteID": "76",
+    "SiteName": "Site76",
+    "FuelType": "Disel",
+    "Country": "INDIA",
+    "Currency": "Rupees"
+  },
+  {
+    "SiteID": "77",
+    "SiteName": "Site77",
+    "FuelType": "Disel",
+    "Country": "INDIA",
+    "Currency": "Rupees"
+  },
+  {
+    "SiteID": "78",
+    "SiteName": "Site78",
+    "FuelType": "Disel",
+    "Country": "INDIA",
+    "Currency": "Rupees"
+  },
+  {
+    "SiteID": "79",
+    "SiteName": "Site79",
+    "FuelType": "Disel",
+    "Country": "INDIA",
+    "Currency": "Rupees"
+  },
+  {
+    "SiteID": "80",
+    "SiteName": "Site80",
+    "FuelType": "Disel",
+    "Country": "INDIA",
+    "Currency": "Rupees"
+  },
+  {
+    "SiteID": "81",
+    "SiteName": "Site81",
+    "FuelType": "Disel",
+    "Country": "INDIA",
+    "Currency": "Rupees"
+  },
+  {
+    "SiteID": "82",
+    "SiteName": "Site82",
+    "FuelType": "Disel",
+    "Country": "INDIA",
+    "Currency": "Rupees"
+  },
+  {
+    "SiteID": "83",
+    "SiteName": "Site83",
+    "FuelType": "Disel",
+    "Country": "INDIA",
+    "Currency": "Rupees"
+  },
+  {
+    "SiteID": "84",
+    "SiteName": "Site84",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "85",
+    "SiteName": "Site85",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "86",
+    "SiteName": "Site86",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "87",
+    "SiteName": "Site87",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "88",
+    "SiteName": "Site88",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "89",
+    "SiteName": "Site89",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "90",
+    "SiteName": "Site90",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "91",
+    "SiteName": "Site91",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "92",
+    "SiteName": "Site92",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "93",
+    "SiteName": "Site93",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "94",
+    "SiteName": "Site94",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "95",
+    "SiteName": "Site95",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "96",
+    "SiteName": "Site96",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "97",
+    "SiteName": "Site97",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "98",
+    "SiteName": "Site98",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "99",
+    "SiteName": "Site99",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "100",
+    "SiteName": "Site100",
+    "FuelType": "Disel",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "195",
+    "SiteName": "Site195",
+    "FuelType": "Petrol",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "196",
+    "SiteName": "Site196",
+    "FuelType": "Petrol",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "197",
+    "SiteName": "Site197",
+    "FuelType": "Petrol",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "198",
+    "SiteName": "Site198",
+    "FuelType": "Petrol",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "199",
+    "SiteName": "Site199",
+    "FuelType": "Petrol",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "200",
+    "SiteName": "Site200",
+    "FuelType": "Petrol",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "342",
+    "SiteName": "Site342",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "343",
+    "SiteName": "Site343",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "344",
+    "SiteName": "Site344",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "345",
+    "SiteName": "Site345",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "346",
+    "SiteName": "Site346",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "347",
+    "SiteName": "Site347",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "348",
+    "SiteName": "Site348",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "349",
+    "SiteName": "Site349",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "350",
+    "SiteName": "Site350",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "351",
+    "SiteName": "Site351",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "352",
+    "SiteName": "Site352",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "353",
+    "SiteName": "Site353",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "354",
+    "SiteName": "Site354",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "355",
+    "SiteName": "Site355",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "356",
+    "SiteName": "Site356",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "357",
+    "SiteName": "Site357",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "358",
+    "SiteName": "Site358",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "359",
+    "SiteName": "Site359",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "360",
+    "SiteName": "Site360",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "361",
+    "SiteName": "Site361",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "362",
+    "SiteName": "Site362",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "363",
+    "SiteName": "Site363",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "364",
+    "SiteName": "Site364",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "365",
+    "SiteName": "Site365",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "366",
+    "SiteName": "Site366",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "367",
+    "SiteName": "Site367",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "368",
+    "SiteName": "Site368",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "369",
+    "SiteName": "Site369",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "370",
+    "SiteName": "Site370",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "371",
+    "SiteName": "Site371",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "372",
+    "SiteName": "Site372",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "373",
+    "SiteName": "Site373",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "374",
+    "SiteName": "Site374",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "375",
+    "SiteName": "Site375",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "376",
+    "SiteName": "Site376",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "377",
+    "SiteName": "Site377",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "378",
+    "SiteName": "Site378",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "379",
+    "SiteName": "Site379",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "380",
+    "SiteName": "Site380",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "381",
+    "SiteName": "Site381",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "382",
+    "SiteName": "Site382",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "383",
+    "SiteName": "Site383",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "384",
+    "SiteName": "Site384",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "385",
+    "SiteName": "Site385",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "386",
+    "SiteName": "Site386",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "387",
+    "SiteName": "Site387",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "388",
+    "SiteName": "Site388",
+    "FuelType": "EV",
+    "Country": "UK",
+    "Currency": "Sterling"
+  },
+  {
+    "SiteID": "389",
+    "SiteName": "Site389",
+    "FuelType": "EV",
+    "Country": "UK",
+    "Currency": "Sterling"
+  },
+  {
+    "SiteID": "390",
+    "SiteName": "Site390",
+    "FuelType": "EV",
+    "Country": "UK",
+    "Currency": "Sterling"
+  },
+  {
+    "SiteID": "391",
+    "SiteName": "Site391",
+    "FuelType": "EV",
+    "Country": "UK",
+    "Currency": "Sterling"
+  },
+  {
+    "SiteID": "392",
+    "SiteName": "Site392",
+    "FuelType": "EV",
+    "Country": "UK",
+    "Currency": "Sterling"
+  },
+  {
+    "SiteID": "393",
+    "SiteName": "Site393",
+    "FuelType": "EV",
+    "Country": "UK",
+    "Currency": "Sterling"
+  },
+  {
+    "SiteID": "394",
+    "SiteName": "Site394",
+    "FuelType": "EV",
+    "Country": "UK",
+    "Currency": "Sterling"
+  },
+  {
+    "SiteID": "395",
+    "SiteName": "Site395",
+    "FuelType": "EV",
+    "Country": "UK",
+    "Currency": "Sterling"
+  },
+  {
+    "SiteID": "396",
+    "SiteName": "Site396",
+    "FuelType": "EV",
+    "Country": "UK",
+    "Currency": "Sterling"
+  },
+  {
+    "SiteID": "397",
+    "SiteName": "Site397",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "398",
+    "SiteName": "Site398",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "399",
+    "SiteName": "Site399",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  },
+  {
+    "SiteID": "400",
+    "SiteName": "Site400",
+    "FuelType": "EV",
+    "Country": "US",
+    "Currency": "Doller"
+  }
+]

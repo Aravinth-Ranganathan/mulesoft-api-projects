@@ -1,0 +1,7 @@
+%dw 2.0
+
+type auto_69f5518d_5a5d_4132_86e4_206af252d718_Output_Payload = {|
+  key1: String, 
+  key2: String
+|}
+
