@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:anypoint-mq="http://www.mulesoft.org/schema/mule/anypoint-mq" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/anypoint-mq http://www.mulesoft.org/schema/mule/anypoint-mq/current/mule-anypoint-mq.xsd">
+	<anypoint-mq:config name="Anypoint_MQ_Config" doc:name="Anypoint MQ Config" doc:id="917d76cc-c2aa-4821-b152-48ecddcad7f7" >
+		<anypoint-mq:connection clientId="client_id_from_anypoint_mq" clientSecret="client_secrect_from_anypoint_mq" />
+	</anypoint-mq:config>
+	<anypoint-mq:circuit-breaker name="Circuit_breaker" tripTimeout="10" doc:name="Circuit breaker" doc:id="f77256a2-2991-4ed3-b3ce-5d93c63dda3f" onErrorTypes="HTTP:TIMEOUT" errorsThreshold="5" />
+	<flow name="anypoint-mq-connectorFlow" doc:id="9701ab69-2abd-4697-968b-5a82c8df12ae" >
+		<anypoint-mq:subscriber doc:name="Subscriber" doc:id="bed27559-64f0-4ee2-96fd-ea4ddd9b74b2" config-ref="Anypoint_MQ_Config" circuitBreaker="Circuit_breaker" destination="demo-queue">
+			<reconnect />
+		</anypoint-mq:subscriber>
+		<anypoint-mq:consume doc:name="Consume" doc:id="cb4ee01f-a225-46cc-bd64-e79f1d3ee3da" config-ref="Anypoint_MQ_Config" destination="demo-queue"/>
+	</flow>
+</mule>

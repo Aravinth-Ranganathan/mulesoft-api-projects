@@ -11,7 +11,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<logger level="INFO" doc:name="Logger" doc:id="6b846ea7-1e3f-4282-8261-1dd5fbf95001" message="until successful flow started"/>
 		<until-successful maxRetries="5" doc:name="Until Successful" doc:id="f30dccfd-f052-477d-99e8-9683b500ed87" millisBetweenRetries="1000">
 			<logger level="INFO" doc:name="Logger" doc:id="7553c510-1c1c-4263-b3b6-6dc29eece856" message="Inside Until Successful scope"/>
-			<file:write doc:name="Write" doc:id="e559e525-3011-496a-9efe-cf4464997995" config-ref="File_Config" path="src\main\resources\fromUntilSuccessful\fromUntilSuccessfuldemo.json" createParentDirectories="false" />
+			<file:write doc:name="Write" doc:id="e559e525-3011-496a-9efe-cf4464997995" config-ref="File_Config" path="src\main\resources\fromUntilSuccessful\fromUntilSuccessfuldemo.json" createParentDirectories="false" mode="APPEND"/>
 		</until-successful>
 		<logger level="INFO" doc:name="Logger" doc:id="664fe08a-856f-420b-a791-e4c2ee94d60d" message="File written successfully " />
 		<ee:transform doc:name="Transform Message" doc:id="23d95dca-826b-4c22-8d3a-61aee27a3279">
